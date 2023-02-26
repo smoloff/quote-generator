@@ -6,7 +6,7 @@ html {
 
 body {
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #f5f5f5;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23070707' fill-opacity='0.05' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     color: black;
@@ -19,7 +19,12 @@ body {
 }
 
 .quote-container {
-    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: var(--quote-container-min-width);
+    min-height: var(--quote-container-min-height);
+    position: relative;
     max-width: 900px;
     max-height: max-content;
     padding: 20px 30px;
@@ -30,10 +35,6 @@ body {
 
 .quote-text {
     font-size: 40px;
-}
-
-.long-qoute {
-    font-size: 30px;
 }
 
 .fa-quote-left {
@@ -75,13 +76,18 @@ button:active {
     transform: translate(0, 5px);
     box-shadow: 0 2px rgba(0, 0, 0, .6);
 }
+.hidden-on-loading {
+    display: none;
+}
 
 .copied {
     display: flex;
+    position: absolute;
+    visibility: hidden;
     justify-content: center;
     align-items: center;
-    min-width: 100px;
-    min-height: 30px;
+    min-width: var(--copied-min-width);
+    min-height: var(--copied-min-height);
     background-color: lightblue;
     padding: 10px 20px;
     border-radius: 10px;
@@ -90,27 +96,46 @@ button:active {
 }
 
 .hide-animation {
-    animation: hideMe 1s ease-in;
+    animation: hideMe 1.5s ease-in;
 
 }
 
-@keyframes hideMe{
-    0%{
-        opacity: 1;
-        margin-left:0px;
-    }
-    25% {
-        opacity: 1;
-        margin-left:0px;
 
+@keyframes hideMe {
+    0% {
+        visibility: visible;
+        opacity: 1;
+        bottom: 70px;
     }
+
     50% {
         opacity: .5;
     }
-    100%{
+
+    100% {
         opacity: 0;
-        margin-left: 60px;
+        bottom: 90px;
+
     }
+
+}
+
+.gradient {
+    background: linear-gradient(-45deg, #fffffe, #d5d5d5, #fffffe);
+    background-size: 300% 300%;
+    animation: gradient-bg 3s ease infinite;
+}
+
+@keyframes gradient-bg {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 
@@ -118,9 +143,40 @@ button:active {
 @media screen and (max-width:1000px) {
     .quote-container {
         margin: auto 15px;
+        min-width: var(--quote-container-min-width-mobile);
+    }
+    .quote-text {
+        font-size: 25px;
+    }
+    .quote-author {
+        font-size: 18px;
+    }
+    .fa-quote-left {
+        font-size: 40px;
     }
 
-    .quote-text {
-        font-size: 35px;
+    button {
+        padding: 10px 20px;
+        font-size: 17px;
+        min-width: 45px;
     }
+
+    .copied {
+        position: absolute;
+        visibility: hidden;
+        opacity: 1;
+        width: 25%;
+    }
+
+}
+
+:root {
+    
+    --copied-min-width:100px;
+    --copied-min-height:30px;
+    --quote-container-min-width:500px;
+    --quote-container-min-width-mobile:75%;
+
+    --quote-container-min-height:400px;
+
 }
